@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
   SafeAreaView,
@@ -18,98 +8,45 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import _ from "lodash";
+import CardSelection from "./components/CardSelection";
+import { Card as CardModel } from "./components/Card";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+const cards: [CardModel, CardModel, CardModel] = [
+  {
+    id: "summer-sunset",
+    name: "Summer Sunset",
+    design: require("./assets/cards/summer-sunset.png"),
+    thumbnail: require("./assets/cards/summer-sunset-thumbnail.png"),
+    color: "#a373de"
+  },
+  {
+    id: "purple-sky",
+    name: "Purple Sky",
+    design: require("./assets/cards/purple-sky.png"),
+    thumbnail: require("./assets/cards/purple-sky-thumbnail.png"),
+    color: "#ec10db"
+  },
+  {
+    id: "meteor-shower",
+    name: "Meteor shower",
+    design: require("./assets/cards/meteor-shower.png"),
+    thumbnail: require("./assets/cards/meteor-shower-thumbnail.png"),
+    color: "#fc6091"
+  }
+];
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+  // const assets = _.flatten(cards.map(card => [card.design, card.thumbnail]));
+  // const ready = useLoadAssets(assets);
+  // if (!ready) {
+  //   return <AppLoading />;
+  // }
+  return <CardSelection {...{ cards }} />;
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+
 });
 
 export default App;
