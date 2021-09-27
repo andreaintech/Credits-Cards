@@ -48,23 +48,17 @@ const App = () => {
   );
 
   return (
-    <View style={{
-      alignItems: 'center',
-      paddingTop: '5%',
-      paddingBottom: '5%',
-    }}>
-      <AnimatedFlatList
-        scrollEventThrottle={16}
-        bounces={false}
-        data={cards}
-        renderItem={({ index, item: { type } }) => (
-          <WalletCard {...{ index, y, type }} />
-        )}
-        keyExtractor={(item) => item.index}
-        // onScroll={onScroll}
-        {...{ ...onScroll }}
-      />
-    </View>
+    <AnimatedFlatList
+      scrollEventThrottle={16}
+      bounces={false}
+      data={cards}
+      renderItem={({ index, item: { type } }) => (
+        <WalletCard {...{ index, y, type }} />
+      )}
+      keyExtractor={(item) => item.index}
+      // onScroll={onScroll}
+      {...{ ...onScroll }}
+    />
   )
 };
 
