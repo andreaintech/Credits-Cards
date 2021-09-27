@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
-  View,
   Animated,
-  Dimensions
+  FlatList
 } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { CARD_HEIGHT, Cards } from "./components/Card";
+import { Cards } from "./components/Card";
 import WalletCard from "./components/WalletCard";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-// const { height } = Dimensions.get("window");
-// const MARGIN = 16;
-// const HEIGHT = CARD_HEIGHT + MARGIN * 2;
+
+const useLazyRef = <T extends object>(initializer: () => T) => {
+  const ref = useRef<T>();
+  if (ref.current === undefined) {
+    ref.current = initializer();
+  }
+  return ref.current;
+};
+
 const cards = [
   {
     index: 1,
@@ -40,24 +44,30 @@ const cards = [
 ];
 
 const App = () => {
-  const y = new Animated.Value(0);
-  const onScroll = Animated.event([{
-    nativeEvent: { contentOffset: { y } }
-  }],
-    { useNativeDriver: true }
+  const y = useLazyRef(() => new Animated.Value(0));
+  const onScroll = useLazyRef(() =>
+    Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: { y },
+          },
+        },
+      ],
+      { useNativeDriver: true }
+    )
   );
 
   return (
     <AnimatedFlatList
       scrollEventThrottle={16}
       bounces={false}
+      {...{ onScroll }}
       data={cards}
       renderItem={({ index, item: { type } }) => (
         <WalletCard {...{ index, y, type }} />
       )}
-      keyExtractor={(item) => item.index}
-      // onScroll={onScroll}
-      {...{ ...onScroll }}
+      keyExtractor={(item) => `${item.index}`}
     />
   )
 };
