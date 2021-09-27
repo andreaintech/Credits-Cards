@@ -1,52 +1,63 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
-import _ from "lodash";
-import CardSelection from "./components/CardSelection";
-import { Card as CardModel } from "./components/Card";
+import { FlatList } from 'react-native-gesture-handler';
 
-const cards: [CardModel, CardModel, CardModel] = [
+import Card, {
+  Cards,
+  CARD_HEIGHT as DEFAULT_CARD_HEIGHT,
+} from "./components/Card";
+
+const cards = [
   {
-    id: "summer-sunset",
-    name: "Summer Sunset",
-    design: require("./assets/cards/summer-sunset.png"),
-    thumbnail: require("./assets/cards/summer-sunset-thumbnail.png"),
-    color: "#a373de"
+    index: 1,
+    type: Cards.Card1,
   },
   {
-    id: "purple-sky",
-    name: "Purple Sky",
-    design: require("./assets/cards/purple-sky.png"),
-    thumbnail: require("./assets/cards/purple-sky-thumbnail.png"),
-    color: "#ec10db"
+    index: 2,
+    type: Cards.Card2,
   },
   {
-    id: "meteor-shower",
-    name: "Meteor shower",
-    design: require("./assets/cards/meteor-shower.png"),
-    thumbnail: require("./assets/cards/meteor-shower-thumbnail.png"),
-    color: "#fc6091"
-  }
+    index: 3,
+    type: Cards.Card3,
+  },
+  {
+    index: 4,
+    type: Cards.Card4,
+  },
+  {
+    index: 5,
+    type: Cards.Card5,
+  },
+  {
+    index: 7,
+    type: Cards.Card6,
+  },
 ];
 
 const App = () => {
-  // const assets = _.flatten(cards.map(card => [card.design, card.thumbnail]));
-  // const ready = useLoadAssets(assets);
-  // if (!ready) {
-  //   return <AppLoading />;
-  // }
-  return <CardSelection {...{ cards }} />;
+  return (
+    <View style={{
+      // flex: 1,
+      // justifyContent: 'center',
+      // alignContent: 'center',
+      alignItems: 'center',
+      paddingTop: '5%',
+      paddingBottom: '5%',
+    }}>
+
+      <FlatList
+        bounces={false}
+        data={cards}
+        renderItem={({ index, item: { type } }) => (
+          <Card {...{ index, type }} />
+        )}
+        keyExtractor={(item) => item.index}
+      />
+    </View>
+  )
 };
-
-const styles = StyleSheet.create({
-
-});
 
 export default App;
