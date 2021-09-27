@@ -1,15 +1,17 @@
 import React from 'react';
 import {
-  Text,
   View,
+  Animated,
+  Dimensions
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { CARD_HEIGHT, Cards } from "./components/Card";
+import WalletCard from "./components/WalletCard";
 
-import Card, {
-  Cards,
-  CARD_HEIGHT as DEFAULT_CARD_HEIGHT,
-} from "./components/Card";
-
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+// const { height } = Dimensions.get("window");
+// const MARGIN = 16;
+// const HEIGHT = CARD_HEIGHT + MARGIN * 2;
 const cards = [
   {
     index: 1,
@@ -38,23 +40,29 @@ const cards = [
 ];
 
 const App = () => {
+  const y = new Animated.Value(0);
+  const onScroll = Animated.event([{
+    nativeEvent: { contentOffset: { y } }
+  }],
+    { useNativeDriver: true }
+  );
+
   return (
     <View style={{
-      // flex: 1,
-      // justifyContent: 'center',
-      // alignContent: 'center',
       alignItems: 'center',
       paddingTop: '5%',
       paddingBottom: '5%',
     }}>
-
-      <FlatList
+      <AnimatedFlatList
+        scrollEventThrottle={16}
         bounces={false}
         data={cards}
         renderItem={({ index, item: { type } }) => (
-          <Card {...{ index, type }} />
+          <WalletCard {...{ index, y, type }} />
         )}
         keyExtractor={(item) => item.index}
+        // onScroll={onScroll}
+        {...{ ...onScroll }}
       />
     </View>
   )
